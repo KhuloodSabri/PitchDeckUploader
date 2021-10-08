@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <!-- absolute path works, because we set public as the root directory in app.js-->
+        <title>Test</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/styles.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    </head>
+
+    <body>
+
+        <form class="form-group user-form" onsubmit="return signup(event);">
+            <label class="form-title">Sign up</label>
+            <input id="username" name="username" placeholder="username">
+            <input id="password" type="password" name="password" placeholder="password">
+            <label class="form-footer">Aready have account? &nbsp; <a href="./login">Sign up</a></label>
+            <input type="submit" class="btn btn-primary" value="Sign Up">
+        </form>
+
+    </body>
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- jQuery library -->
+
+    <script src="/js/signup.js"></script>
+
+</html>

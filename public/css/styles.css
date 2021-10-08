@@ -1,0 +1,173 @@
+body {
+    color: #333333;
+    font-family: arial;
+    padding: 40px;
+    display: flex;
+    min-height: 100vh;
+    max-height: 100vh;
+    align-items: stretch;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    width: fit-content;
+    margin: auto;
+}
+
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.flex-grid {
+    display: flex;
+    width: 100%;
+}
+
+.nav {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    max-width: 15vw;
+    min-width: 15vw;
+    width: 15vw;
+    text-align: center;
+    background-color: rgba(231, 244, 250, 0.781);
+}
+
+.nav li {
+    border-bottom: 1px solid;
+    border-color: #b4d1d1;
+}
+
+h1 {
+    font-size: 40px;
+    width: fit-content;
+}
+
+
+#upload-page{
+    max-height: 100%;
+}
+
+#file-path {
+    border: 1px solid #cccccc;
+    padding: 8px;
+    width: 300px;
+    margin: 0;
+    margin-right: 8px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+#preview-pitch-deck {
+    flex-grow: 1;
+    margin: auto;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    margin-top: 20px;
+    max-height: 100%;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#preview-pitch-deck::-webkit-scrollbar {
+    display: none;
+}
+
+#preview-pitch-deck img {
+    width: 60%;
+    margin-left:20%;
+    margin-top: 10px;
+    border: 1px solid #888888;
+    border-radius: 25px;
+}
+
+#upload-status-message {
+    display: flex;
+    width: fit-content;
+    margin: auto;
+    margin-top: 16px;
+    font-size: 105%;
+    padding: 5px;
+    color: #0d8eff;
+}
+
+#upload-progress {
+    margin : auto;
+    width: 70%;    
+    display: none;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.progress{
+    width: 85%;
+    margin: 0;
+}
+
+.progress-bar {
+    background-color: #8dc776;
+}
+
+.btn-primary {
+    background-color: #6aace4;
+    border-color: #6aace4;
+}
+
+.btn-warning {
+    background-color: #ffc675;
+    border-color: #ffc675;
+}
+
+.user-form{
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 30%;
+    padding: 10px;
+    background-color: #c7e2fae8;
+    border: 1px solid #6aace4;
+    border-radius: 3px;
+}
+
+.user-form input{
+    margin: 10px;
+    padding: 5px;
+    border: 1px solid #6aace4;
+    border-radius: 3px;
+}
+
+.user-form .form-title{
+    font-size: 130%;
+    font-weight: bold;
+    color: #0a61ad;
+    width: 100%;
+    text-align: center;
+}
+
+.user-form .form-footer{
+    margin: 10px;
+    font-size: 80%;
+    color: #a7a7a7;
+}
+
+.user-form input[type="submit"]{
+    width: 25%;
+    margin: auto;
+    background-color:#0a61ad
+}
+
+.decks-list{
+    margin: 50px;
+}

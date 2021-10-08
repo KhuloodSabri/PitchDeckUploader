@@ -1,0 +1,15 @@
+<div class="nav navbar-nav">
+    <li>
+        <a href="/upload-deck">Upload File</a>
+    </li>
+    <li>
+        <a href='#' onClick="window.location.href=`/decks?username=${localStorage.getItem('username')}`;return false;">My decks</a>
+    </li>
+    <li>
+        <a href='/decks'>Decks</a>
+    </li>
+    <li>
+        <a href='/login' onClick="localStorage.clear()">Sign out</a>
+    </li>
+</div>
+
