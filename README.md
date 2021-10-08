@@ -2,7 +2,7 @@
 
 ## How to Run
 - Clone the repository
-- On your machine dowload and install:
+- On your machine install:
   - nodejs
   - graphicsmagic
   - ghostscrip
