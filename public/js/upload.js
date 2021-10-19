@@ -8,7 +8,7 @@ const uploadStatusMessage = document.querySelector('#upload-status-message')
 const uploadButton = document.querySelector("#upload-button")
 const cancelUploadButton = document.querySelector("#cancel-upload-button")
 
-const socket = io()
+const socket = io({ closeOnBeforeunload: false })
 let clientId = undefined;
 let isUploading = false
 let isUploadCanceled = false
@@ -20,6 +20,7 @@ fileInput.addEventListener('change', (e) => {
 
     uploadButton.style.display = "none"
     isUploading = true
+    isUploadCanceled = false
     progressDiv.style.display = "flex"
     progressBar.style.width = "0%"
     filePathLabel.textContent = fileInput.value
@@ -35,21 +36,38 @@ fileInput.addEventListener('change', (e) => {
             method: "POST",
             body: formData
         }).then(response => {
-            uploadStatusMessage.innerText = "File uploaded to server"
-            setTimeout(() => {
-                uploadStatusMessage.innerText = "Processing file on server, saving your files to cloud ..."
-            }, 2000)
+            if (response.status === 200) {
+                uploadStatusMessage.innerText = "File uploaded to server"
+                setTimeout(() => {
+                    uploadStatusMessage.innerText = "Processing file on server, saving your files to cloud ..."
+                }, 2000)
+            } else {
+                isUploading = false
+                uploadButton.style.display = 'inline-block'
+                progressDiv.style.display = "none"
+                uploadStatusMessage.innerText = response.statusText
+            }
         }).catch(error => {
+            isUploading = false
+            uploadButton.style.display = 'inline-block'
+            progressDiv.style.display = "none"
             uploadStatusMessage.innerText = "An error occured"
         });
 })
 
+window.onbeforeunload = (e) => {
+    if (isUploading) {
+        return 'If you leave your current upload will not be completed'
+    }
+}
+
 cancelUploadButton.onclick = (e) => {
-    uploadStatusMessage.innerText = "Canceling upload..."
-    previewElement.innerHTML = ''
-    isUploadCanceled = true
-    progressBar.style.width = "0%";
-    socket.emit('cancel')
+    if(isUploading){
+        uploadStatusMessage.innerText = "Canceling upload..."
+        previewElement.innerHTML = ''
+        isUploadCanceled = true
+        progressBar.style.width = "0%";
+    }
 }
 
 const reloadImg = (img, src) => {
@@ -64,8 +82,13 @@ socket.on('CreatedId', (id) => {
 })
 
 socket.on('uploadProgress', (data) => {
-    if (isUploadCanceled || !isUploading) {
+    if (isUploadCanceled) {
         isUploading = false
+        socket.emit('cancel')
+        return
+    }
+
+    if (!isUploading) {
         return
     }
 
@@ -105,12 +128,15 @@ socket.on('uploadProgress', (data) => {
     }
 })
 
-socket.on('error',  ({errorMessage, fileName}) => {
+socket.on('error', ({ errorMessage, fileName }) => {
     uploadStatusMessage.innerText = errorMessage
     previewElement.innerHTML = ''
 })
 
 socket.on('canceled', () => {
+    isUploading = false
+    uploadButton.style.display = 'inline-block'
+    progressDiv.style.display = "none"
     uploadStatusMessage.innerText = 'Upload canceled successfully'
 })
 

@@ -39,6 +39,8 @@ module.exports = class UploadSocketIO {
                 uploadData: uploadData,
                 totalNumOfPages, totalNumOfPages
             })
+        
+        
     }
 
     sendErrorMessage(socketId, errorMessage, username, fileName) {
@@ -48,11 +50,10 @@ module.exports = class UploadSocketIO {
             return
         }
 
-        socket.emit('error', { errorMessage, fileName })
-        setTimeout(() => {
-            var deletedUuids = dbServices.deleteUploadedFile(username, fileName)
-            uploadCareServices.revertUpload(socket, deletedUuids, fileName)
-        }, 4000)
+        socket.emit('error', { errorMessage, fileName })      
+        var deletedUuids = dbServices.deleteUploadedFile(username, fileName)
+        uploadCareServices.revertUpload(socket, deletedUuids, fileName)
+        
     }
 
     setHandlerOfCancelUploadSignals(socketId, username, fileName) {
@@ -63,10 +64,9 @@ module.exports = class UploadSocketIO {
         }
 
         socket.on('cancel', () => {
-            setTimeout(() => {
-                var deletedUuids = dbServices.deleteUploadedFile(username, fileName)
-                uploadCareServices.revertUpload(socket, deletedUuids, fileName)
-            }, 4000)
+            console.log('cancel', fileName)
+            var deletedUuids = dbServices.deleteUploadedFile(username, fileName)
+            uploadCareServices.revertUpload(socket, deletedUuids, fileName)
         })
     }
 
@@ -94,6 +94,20 @@ module.exports = class UploadSocketIO {
                 })).catch(err => {
                     uploadSocketIo.sendErrorMessage("Error in Converting pdf to images", username, fileName)
                 })
+        })
+    }
+
+    removeOldHandlers(socketId){
+        const socket = this.getSocket(socketId)
+
+        if (!socket) {
+            return
+        }
+
+        socket.removeAllListeners()
+        socket.on('disconnect', () => {
+            console.log('close socket')
+            delete this.socketsMap[socketId]
         })
     }
 }

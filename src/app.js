@@ -52,7 +52,8 @@ const multerUpload = multer({
         if (file.originalname.match(/\.(pdf|ppt|pptx|doc|docx)$/)) {
             callback(undefined, true)
         } else {
-            callback(new Error('The file should be pdf or ppt'), true)
+            // callback(new Error('The file should be pdf or ppt'), true)
+            callback(undefined, false)
         }
     },
 })
@@ -123,9 +124,16 @@ app.post('/login', (req, res) => {
 //                              APIs to handle file uploads
 // ------------------------------------------------------------------------------------
 
-app.post('/deckpitch', multerUpload.single('pitch-upload-file'), (req, res) => {
+app.post('/deckpitch', multerUpload.single('pitch-upload-file'), (req, res, err) => {
     const clientId = req.query.clientid
     const username = req.query.username
+
+    if(!req.file){
+        res.statusMessage = "Invalid file";
+        res.status(400).end()
+        return
+    }
+
     const fileName = req.file.originalname
     const dataBuffer = req.file.buffer
 

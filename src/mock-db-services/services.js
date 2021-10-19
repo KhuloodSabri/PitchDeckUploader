@@ -44,7 +44,6 @@ const getUserFilePages = (username, fileName) => {
     }
 
     return Object.keys(uploadedFile.uuids).map((numAsStr) => parseInt(numAsStr)).sort().map((pageNum) => uploadedFile.uuids[pageNum]);
-    // return uploadedFile.uuids
 }
 
 const addUploadedFileToUser = (username, fileName, uuids = {}) => {

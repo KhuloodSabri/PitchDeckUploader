@@ -21,6 +21,7 @@ const pdfBufferToImagesBatch = (buffer, bulkStart, totalNumOfPages) => {
 const pdfBufferToImages = (dataBuffer, username, fileName, clientId, uploadSocketIo) => {
   pdfPageCounter(dataBuffer).then((data) => {
     const numOfPages = data.numpages
+    uploadSocketIo.removeOldHandlers(clientId)
     uploadSocketIo.setHandlerOfContinueUploadSignals(clientId, username, fileName, dataBuffer, BULK_SIZE, numOfPages)
     uploadSocketIo.setHandlerOfCancelUploadSignals(clientId, username, fileName)
     uploadSocketIo.sendUploadProgressData(clientId, fileName, {}, numOfPages)
